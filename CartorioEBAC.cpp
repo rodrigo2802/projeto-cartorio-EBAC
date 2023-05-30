@@ -5,17 +5,21 @@
 
 
 
-int registro()
+int registro() //Função responsável por cadastrar usuário
 {
+	//Criação de variavel
+	
 	char arquivo[40];
 	char cpf[40];
 	char nome[40];
 	char sobrenome[40];
 	char cargo[40];
 	
-	printf("Digite o CPF: ");
+	//Final da Criação de variavel
 	
-	scanf("%s",&cpf); //Coleta a resposta do usuario
+	printf("Digite o CPF: "); //Coleta a resposta do usuario
+	
+	scanf("%s",&cpf); //%s refere-se a strings
 	
 	strcpy(arquivo, cpf); //Copia os valores das strings
 	
@@ -23,6 +27,10 @@ int registro()
 	file = fopen(arquivo, "w"); //Cria o arquivo
 	fprintf(file,cpf); //Salva os valores das variaveis
 	fclose(file); //Fecha o arquivo
+	
+	file = fopen(arquivo, "a");
+	fprintf(file, ",");
+	fclose(file);
 	
 	file = fopen(arquivo, "a");
 	fprintf(file, ",");
@@ -61,13 +69,17 @@ int registro()
 
 int consulta()
 {
-	setlocale(LC_ALL,"Portuguese");
+	setlocale(LC_ALL,"Portuguese"); //Definindo linguagem
+	
+	//Criação de variavel
 	
 	char cpf[40];
 	char conteudo[200];
 	
+	//Final da Criação de variavel
+	
 	printf("Digite o cpf que deseja consultar: ");
-	scanf("%s",&cpf);
+	scanf("%s",&cpf); //%s refere-se a strings
 	
 	FILE *file;
 	
@@ -78,9 +90,9 @@ int consulta()
 		printf("Nao encontrei esse nome :(\n");
 	}
 
-	while(fgets(conteudo,200,file) != NULL)
+	while(fgets(conteudo,200,file) != NULL) //while=enquanto... fgets=ler caracteres strings da variavel conteudo com 200 slots
 	{
-		printf("O resultado da sua pesquisa: \n");
+		printf("\nEssas são as informações do usuario");
 		printf("%s",conteudo);
 		printf("\n\n");
 	}
@@ -89,9 +101,32 @@ int consulta()
 
 int deletar()
 {
-	printf("voce escolheu deletar nomes!\n");
-	system("pause");
+	char cpf[40];
+	
+	printf("Digite o cpf que deseja deletar: ");
+	scanf("%s",&cpf);
+	
+	FILE *file;
+	file = fopen(cpf,"r");
+	fclose(file);
+	
+	remove(cpf);
+	
+	if(file == NULL)
+	{
+		printf("Nao encontrei esse CPF no sistema :(\n");
+		system("pause");
+	}
+	
+		if(file != NULL)
+	{
+		printf("CPF deletado do sistema :)\n");
+		system("pause");
+	}
+
 }
+
+
 int main() //Definindo variáveis
 {	
 	int opcao=0;
@@ -109,7 +144,8 @@ int main() //Definindo variáveis
 		printf("Escolha a opção desejada no menu:\n\n");
 		printf("\t1-Registrar nomes\n");
 		printf("\t2-Consultar nomes\n");
-		printf("\t3-Deletar nomes\n\n"); 
+		printf("\t3-Deletar nomes\n"); 
+		printf("\t4-Sair do programa\n");
 		printf("Opção: "); //Fim do menu
 	
 		scanf("%d",&opcao); //Armazenando a escolha
@@ -129,6 +165,11 @@ int main() //Definindo variáveis
 		
 		case 3:
 		deletar();
+		break;
+		
+		case 4:
+		printf("Obrigado por tudo e até a proxima!");
+		return 0;
 		break;
 		
 		default:
